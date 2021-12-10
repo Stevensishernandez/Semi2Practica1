@@ -1,5 +1,3 @@
-use SoulHealer_201800484;
-
 
 Bulk insert temp 
 
@@ -11,11 +9,6 @@ FIELDTERMINATOR = ',' ,
 ROWTERMINATOR = '\n'
 );
 
-TRUNCATE TABLE temp;
-
-
-
-SELECT * FROM temp WHERE Tsunami_Cause_Code IS NULL;
 
 INSERT INTO TsunamiCauseCode(idTsunamiCauseCode,name)
 SELECT DISTINCT Tsunami_Cause_Code,'default' FROM temp WHERE Tsunami_Cause_Code IS NOT NULL;
@@ -36,7 +29,7 @@ TRUNCATE TABLE  Position;
 INSERT INTO dbo.Position (Latitude,Longitude)
 SELECT DISTINCT Latitude,Longitude FROM temp ;
 
-TRUNCATE TABLE Event;
+
 INSERT INTO dbo.Event (idDate, idLocation, idPosition, MaximumWaterHeight, NumberofRunups,TsunamiMagnitude, TsunamiIntensity, Hr, Mn, Sec, TotalDeaths, TotalMissing, TotalMissingDescription,
 						TotalInjuries,TotalDamage,TotalDamageDescription, TotalHousesDestroyed, TotalHousesDamaged, idTsunamiCauseCode, idTsunamiEventValidity )
 (SELECT D.idDate, L.idLocation, P.idPosition, T.Maximum_Water_Height, T.Number_of_Runups, T.Tsunami_Magnitude, T.Tsunami_Intensity, T.Hr, T.Mn, T.Sec,
@@ -46,7 +39,3 @@ INSERT INTO dbo.Event (idDate, idLocation, idPosition, MaximumWaterHeight, Numbe
 WHERE ( (T.Mo = D.Mo OR  (T.Mo IS NULL AND D.Mo IS NULL)) and (T.Dy = D.Dy OR (T.Dy IS NULL AND D.Dy IS NULL) ) AND T.Year = D.Year) AND 
 	  ((L.Country = T.Country OR  (L.Country IS NULL AND T.Country IS NULL) ) and (L.LocationName = T.Location_Name OR  (L.LocationName IS NULL AND T.Location_Name IS NULL))) AND
 	  ((P.Latitude = T.Latitude OR  (P.Latitude IS NULL AND T.Latitude IS NULL) ) and (P.Longitude = T.Longitude OR  (P.Longitude IS NULL AND T.Longitude IS NULL))));
-
-SELECT   * FROM Event;
-
-select count(*)
