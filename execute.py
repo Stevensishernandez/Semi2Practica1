@@ -1,7 +1,8 @@
 import pyodbc 
+import numpy 
 
 conn = pyodbc.connect('Driver={SQL Server};'
-                      'Server=DESKTOP-A4PU5CM\SQLEXPRESS;'
+                      'Server=DESKTOP-9NJVN8B\SQLEXPRESS;'
                       'Database=Semi2P1;'
                       'Trusted_Connection=yes;')
 
@@ -209,6 +210,7 @@ def print_menu():
 def querysMake():
     query = ''
     cursor = conn.cursor()
+    contenido = []
 # #Example * Select
     print_menu()
     option = ''
@@ -318,9 +320,20 @@ def querysMake():
         print('Invalid option. Please enter a number between 1 and 4.')
 
     cursor.execute(query)
+    
     print(' ')
     for i in cursor:
-        print(i)    
-    print(' ')
+        print(i)
+        contenido.append(i)    
+
+    Array = numpy.array(contenido)
+    # Displaying the array
+    print('Array:\n', Array)
+    file = open("file3.txt", "w+")
+    
+    # Saving the 2D array in a text file
+    content = str(Array)
+    file.write(content)
+    file.close()
 
     
