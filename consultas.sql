@@ -60,7 +60,7 @@ GROUP BY L.Country
 ORDER BY Total  DESC
 
 -- Consulta 10
-SELECT L.Country, SUM(E.MaximumWaterHeight) Total FROM Event E
+SELECT L.Country, AVG(E.MaximumWaterHeight) Total FROM Event E
 INNER JOIN Location L ON (L.idLocation = E.idLocation)
 GROUP BY L.Country
 HAVING SUM(E.MaximumWaterHeight) > 0
